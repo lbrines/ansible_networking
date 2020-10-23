@@ -1,0 +1,6 @@
+---
+cli:
+ username: cisco
+ password: cisco
+
+ntp_server: 87.81.181.2

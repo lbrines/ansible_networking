@@ -1,0 +1,9 @@
+---
+- name: BACKUP THE CONFIG
+  ios_config:
+    provider: "{{ cli }}"      
+    backup: yes
+    backup_options:
+      dir_path: ./backup
+  register: config_output
+

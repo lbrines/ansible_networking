@@ -1,0 +1,16 @@
+---
+- name: configure ntp and clock
+  cisco.ios.ios_ntp:
+    provider: "{{ cli }}"
+    server: "{{ ntp_server }}"
+    logging: false
+    state: present
+
+- name: Timezome and Timestamps
+  cisco.ios.ios_config:
+    provider: "{{ cli }}"
+    lines:
+      - clock timezone EST -3 0
+      - service timestamps debug datetime msec localtime show-timezone
+      - service timestamps log datetime msec localtime show-timezone
+
