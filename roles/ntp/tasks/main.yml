@@ -1,4 +1,14 @@
 ---
+- name: "GET NTP CONFIGURATION"
+  register: get_ntp_config
+  cisco.ios_command:
+    provider: "{{ cli }}"
+    commands:
+      - "show running-config | include clock timezone"
+      - "show running-config | include clock summer-time"
+      - "show running-config | include ntp source"
+      - "show running-config | include ntp server"
+
 - name: configure ntp and clock
   cisco.ios.ios_ntp:
     provider: "{{ cli }}"
@@ -7,10 +17,16 @@
     state: present
 
 - name: Timezome and Timestamps
+  when: "(timezone is defined) and (timezone != get_ntp_config.stdout_lines[0][0])"
+  register: set_timezone
   cisco.ios.ios_config:
     provider: "{{ cli }}"
     lines:
-      - clock timezone EST -3 0
+      - "{{ timezone }}"
       - service timestamps debug datetime msec localtime show-timezone
       - service timestamps log datetime msec localtime show-timezone
+
+- name: Postone configuration save
+  when: "(set_timezone.changed == true)"
+  set_fact: configured=true
 

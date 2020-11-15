@@ -3,4 +3,5 @@ cli:
  username: cisco
  password: cisco
 
-ntp_server: 87.81.181.2
+timezone: "clock timezone GMT -3"
+ntp_server: 2.ar.pool.ntp.org

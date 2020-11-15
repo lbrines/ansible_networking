@@ -1,1 +1,11 @@
-router11
+[all:vars]
+ansible_connection=local
+
+[router:vars]
+username=cisco
+password=cisco
+backup_folder=./00-backups-ios/
+cisco_os=ios
+
+[router]
+router1
