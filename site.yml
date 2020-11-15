@@ -1,6 +1,6 @@
 ---
  - hosts: all
-   connection: local
+   connection: ansible.netcommon.network_cli
    gather_facts: false
    roles:
            #    - user

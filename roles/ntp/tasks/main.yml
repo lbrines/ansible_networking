@@ -1,7 +1,7 @@
 ---
 - name: "GET NTP CONFIGURATION"
   register: get_ntp_config
-  cisco.ios_command:
+  cisco.ios.ios_command:
     provider: "{{ cli }}"
     commands:
       - "show running-config | include clock timezone"
@@ -12,7 +12,7 @@
 - name: configure ntp and clock
   cisco.ios.ios_ntp:
     provider: "{{ cli }}"
-    server: "{{ ntp_server }}"
+    server: "{{ ntp_servers }}"
     logging: false
     state: present
 
