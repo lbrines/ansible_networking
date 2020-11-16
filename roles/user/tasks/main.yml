@@ -7,4 +7,12 @@
         password_type: password
     privilege: "{{ privilege_new }}"
     state: present
-  when: password_new is defined
+  when: user_new is defined
+
+- name: Update Password
+  cisco.ios.ios_user:
+    name: "{{ user_update }}"
+    configured_password: '{{ update_password }}'
+    update_password: always
+    state: present
+  when: user_update is defined
