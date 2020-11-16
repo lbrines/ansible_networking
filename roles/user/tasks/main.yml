@@ -16,3 +16,10 @@
     update_password: always
     state: present
   when: user_update is defined
+
+- name: Delete users
+  cisco.ios.ios_user:
+    aggregate:
+    - name:  "{{ user_delete }}"
+    state: absent
+  when: user_delete is defined
