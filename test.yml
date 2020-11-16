@@ -12,5 +12,6 @@
     # More on group_vars here: https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
     - debug:
         msg: 
-           - "{{ansible_network_os}}"
-           - "{{ansible_connection}}"
+           - "{{ ansible_network_os }}"
+           - "{{ ansible_connection }}"
+           - "{{ name }}"

@@ -4,6 +4,7 @@ ansible_password: cisco
 backup_folder: ./00-backups-ios/
 timezone: "clock timezone GMT -4"
 ntp_servers: 
- - "ntp server 4.4.4.4"
- - "ntp server 5.5.5.5"
+ - "ntp server 132.163.97.1"
+ - "ntp server 132.163.97.2"
+ - "ntp server 132.163.97.3"
 
