@@ -1,6 +1,7 @@
 ansible_network_os: ios
 ansible_user: cisco
 ansible_password: cisco
+#ansible_ssh_common_arg: "-o KexAlgorithms=diffie-hellman-group1-sha1 -o Ciphers=aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc"
 backup_folder: ./00-backups-ios/
 timezone: "clock timezone GMT -4"
 ntp_servers: 
