@@ -8,4 +8,5 @@ ntp_servers:
  - "ntp server 132.163.97.1"
  - "ntp server 132.163.97.2"
  - "ntp server 132.163.97.3"
+password_ansible: ansible
 

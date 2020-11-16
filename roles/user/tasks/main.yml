@@ -1,10 +1,10 @@
 ---
-- name: Add users to privilege level 15
+- name: Add new users and privilege level
   cisco.ios.ios_user:
-    provider: "{{ cli }}"
     aggregate:
-      - name: ansible
-        configured_password: "{{ password }}"
+      - name: "{{ user_new }}"
+        configured_password: "{{ password_new }}"
         password_type: password
-    privilege: 15
+    privilege: "{{ privilege_new }}"
     state: present
+  when: password_new is defined
