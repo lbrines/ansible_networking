@@ -1,7 +1,1 @@
----
-cli:
- username: cisco
- password: cisco
-
-timezone: "clock timezone GMT -4"
-ntp_servers: "2.ar.pool.ntp.org"
+ansible_connection: network_cli

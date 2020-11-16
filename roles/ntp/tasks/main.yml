@@ -2,25 +2,17 @@
 - name: "GET NTP CONFIGURATION"
   register: get_ntp_config
   cisco.ios.ios_command:
-    provider: "{{ cli }}"
     commands:
       - "show running-config | include clock timezone"
       - "show running-config | include clock summer-time"
-      - "show running-config | include ntp source"
       - "show running-config | include ntp server"
 
-- name: configure ntp and clock
-  cisco.ios.ios_ntp:
-    provider: "{{ cli }}"
-    server: "{{ ntp_servers }}"
-    logging: false
-    state: present
+
 
 - name: Timezome and Timestamps
   when: "(timezone is defined) and (timezone != get_ntp_config.stdout_lines[0][0])"
   register: set_timezone
   cisco.ios.ios_config:
-    provider: "{{ cli }}"
     lines:
       - "{{ timezone }}"
       - service timestamps debug datetime msec localtime show-timezone
@@ -30,3 +22,23 @@
   when: "(set_timezone.changed == true)"
   set_fact: configured=true
 
+- name: "SET NTP SERVER"
+  when: "(item not in get_ntp_config.stdout_lines[2])"
+  with_items: "{{ ntp_servers }}"
+  register: set_ntp_server
+  cisco.ios.ios_config:
+    lines:
+      - "{{ item }}"
+- name: "POSTPONE CONFIGURATION SAVE"
+  when: "(set_ntp_server.changed == true)"
+  set_fact: configured=true
+- name: "REMOVE NTP SERVER"
+  when: "(item not in ntp_servers)"
+  with_items: "{{ get_ntp_config.stdout_lines[2] }}"
+  register: remove_ntp_server
+  ios_config:
+    lines:
+      - "no {{ item }}"
+- name: "POSTPONE CONFIGURATION SAVE"
+  when: "(remove_ntp_server.changed == true)"
+  set_fact: configured=true

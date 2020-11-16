@@ -15,17 +15,16 @@
   local_action: command date +%Y%m%d-%H:%M
   register: timestamp
 
-- name: BACKUP THE CONFIG
+- name: Backup the config
   cisco.ios.ios_config:
-    provider: "{{ cli }}"      
     backup: yes
     backup_options:
       dir_path: ./backup
   register: config_output
+  when: ansible_network_os == 'ios'
 
 - name: Execute IOS commands
-  ios_command:
-    provider: "{{ cli }}"
+  cisco.ios.ios_command:
     commands: "{{ item  }}"
   register: commands_output
   with_items:
@@ -38,8 +37,7 @@
    - show version
    - show spanning-tree
    - show spanning-tree blockedports
-  when: 
-   - cisco_os == 'ios'
+  when: ansible_network_os == 'ios'
 
 - name: Create IOS command folder if don't exist
   file:
@@ -56,8 +54,7 @@
    - 6
    - 7
    - 8
-  when:
-    - cisco_os == 'ios'
+  when: ansible_network_os == 'ios'
 
 - name: Save IOS command output on destination file
   copy:
@@ -73,5 +70,4 @@
     - 6
     - 7
     - 8 
-  when:
-    - cisco_os == 'ios'
+  when: ansible_network_os == 'ios'

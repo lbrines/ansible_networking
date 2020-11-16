@@ -1,0 +1,16 @@
+---
+- name: RUN COMMAND AND PRINT TO TERMINAL WINDOW
+  hosts: all
+  gather_facts: false
+
+  tasks:
+
+    # The ansible_network_os is stored as a group variable in inventory
+    # It is recommended to store variables you use to connect TO THE DEVICE
+    # in inventory.  Variables you use to run on or configure on the device in
+    # group_var folder stucture.
+    # More on group_vars here: https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
+    - debug:
+        msg: 
+           - "{{ansible_network_os}}"
+           - "{{ansible_connection}}"
