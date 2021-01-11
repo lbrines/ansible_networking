@@ -1,0 +1,114 @@
+---
+
+- name: ACL --- InvGate ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- InvGate ---
+      - access-list 99 permit 172.24.4.23
+  tags:
+    - acl
+
+- name: ACL --- SATcs ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- SATcs ---
+      - access-list 99 permit 172.24.4.24
+  tags:
+    - acl
+
+- name: ACL --- Remote Console Mgm Mitre ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- Remote Console Mgm Mitre ---
+      - access-list 99 permit 172.25.8.9
+  tags:
+    - acl
+
+- name: ACL --- Remote Console Mgm Lasalle ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- Remote Console Mgm Lasalle ---
+      - access-list 99 permit 172.24.8.9
+  tags:
+    - acl
+
+- name: ACL --- Core Mitre ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- Core Mitre ---
+      - access-list 99 permit 172.25.8.5
+      - access-list 99 permit 172.25.8.6
+      - access-list 99 permit 172.25.8.3
+  tags:
+    - acl
+
+- name: ACL --- Core Lasalle ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- Core Lasalle ---
+      - access-list 99 permit 172.24.8.3
+  tags:
+    - acl
+
+- name: ACL --- syslog  ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- syslog  ---
+      - access-list 99 permit 172.24.0.122
+#      - access-list 99 permit LA IP DEL SYSLOG CREADO POR FER
+  tags:
+    - acl
+
+- name: ACL --- Security Compliance Manager ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- Security Compliance Manager ---
+      - access-list 99 permit 172.24.0.86
+      - access-list 99 permit 172.24.0.87
+      - access-list 99 permit 172.24.0.92
+  tags:
+    - acl
+
+- name: ACL --- Zabbix  ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- Zabbix  ---
+      - access-list 99 permit 172.24.0.70
+      - access-list 99 permit 172.24.0.71
+      - access-list 99 permit 172.24.0.72
+      - access-list 99 permit 172.25.0.72
+  tags:
+    - acl
+
+- name: ACL --- WhatsUp ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- WhatsUp ---
+      - access-list 99 permit 172.24.0.64
+  tags:
+    - acl
+
+- name: ACL --- Tech Management ---
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark --- Tech Management ---
+      - access-list 99 permit 172.24.16.0 0.0.0.127
+      - access-list 99 permit 172.25.16.0 0.0.0.127
+      - access-list 99 permit 172.24.18.128 0.0.0.63
+      - access-list 99 permit 172.24.31.0 0.0.0.127
+  tags:
+    - acl
+
+- name: ACL ----- Pool VPN -----
+  cisco.ios.ios_config:
+    lines:
+      - access-list 99 remark ----- Pool VPN -----
+      - access-list 99 permit 172.24.36.0 0.0.1.255
+      - access-list 99 permit 172.25.36.0 0.0.1.255
+      - access-list 99 permit 172.25.18.0 0.0.1.255
+  tags:
+    - acl
+   
+- name: "Configuration save"
+  when: "(remove_ntp_server.changed == true)"
+  set_fact: configured=true
