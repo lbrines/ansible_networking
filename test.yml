@@ -14,4 +14,4 @@
         msg: 
            - "{{ ansible_network_os }}"
            - "{{ ansible_connection }}"
-           - "{{ name }}"
+             #- "{{ name }}"
