@@ -1,0 +1,11 @@
+---
+- name: convert configured ACLs to structured data
+  hosts: all
+  gather_facts: false
+  tasks:
+
+
+  - name: Use the ACLs resource module to gather the current config
+    cisco.ios.ios_acls:
+      config:
+      state: gathered
