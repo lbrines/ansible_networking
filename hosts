@@ -1,5 +1,0 @@
-[all:vars]
-ansible_connection=network_cli
-
-[cisco]
-router_test
