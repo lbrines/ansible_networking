@@ -1,0 +1,60 @@
+---
+- name: ACLs data
+  hosts: cisco
+  gather_facts: false
+  
+  vars:
+   type: "none"
+   rollback: 0
+  
+  tasks:
+  - name: Rollback acls
+    cisco.ios.ios_acls:
+       state: replaced
+       config: "{{ acls }}"
+    when: rollback == 1
+  
+  - name: Use the ACLs resource module to gather the current config
+    cisco.ios.ios_acls:
+      config:
+      state: gathered
+    register: acls
+    when: rollback == 0
+
+  - name: Create inventory directory
+    file:
+       path: "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}"
+       state: directory
+    when: rollback == 0
+
+  - name: Backup the ACL configuration to a file
+    copy:
+       content: "{{ {'acls': acls['gathered']} | to_nice_yaml }}"
+       dest: "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}/acls.yaml"
+    when: rollback == 0
+
+  - name: Add/Modify acls 99
+    cisco.ios.ios_acls:
+       config:
+       - acls:
+         - aces:
+           - grant: permit
+             sequence: "{{ sq }}"
+             source:
+                address: "{{ ip }}"
+           acl_type: standard
+           name: '99'
+         afi: ipv4
+       state: merged
+    when: type == "merged"
+
+  - name: Delete ALL 99 acls
+    cisco.ios.ios_acls:
+       config:
+       - acls:
+         - aces:
+           - name: '99'
+           acl_type: standard
+         afi: ipv4
+       state: deleted
+    when: type == "deleted"  

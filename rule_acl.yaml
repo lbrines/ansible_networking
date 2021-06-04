@@ -1,0 +1,53 @@
+acls:
+- acls:
+     - aces:
+         - destination:
+             address: 192.0.3.0
+             wildcard_bits: 0.0.0.255
+           dscp: ef
+           grant: deny
+           protocol: icmp
+           protocol_options:
+             icmp:
+               traceroute: true
+           sequence: 10
+           source:
+             address: 192.0.2.0
+             wildcard_bits: 0.0.0.255
+           ttl:
+             eq: 10
+         - destination:
+             host: 198.51.110.0
+             port_protocol:
+               eq: telnet
+           grant: deny
+           protocol: tcp
+           protocol_options:
+             tcp:
+               ack: true
+           sequence: 20
+           source:
+             host: 198.51.100.0
+       acl_type: extended
+       name: '110'
+     - aces:
+         - destination:
+             address: 192.0.3.0
+             port_protocol:
+                 eq: www
+             wildcard_bits: 0.0.0.255
+           grant: deny
+           option:
+               traceroute: true
+           protocol: tcp
+           protocol_options:
+               tcp:
+                   fin: true
+           sequence: 10
+           source:
+             address: 192.0.2.0
+             wildcard_bits: 0.0.0.255
+           ttl:
+               eq: 10
+       acl_type: extended
+       name: test_acl
