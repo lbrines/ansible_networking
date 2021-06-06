@@ -40,11 +40,15 @@
   when: type == "merged"
 
 - name: Delete ALL 99 acls
-  cisco.ios.ios_acls:
-     config:
-     - afi: ipv4
-       acls:
-         - name: 99
-           acl_type: standard
-     state: deleted
-  when: deleted == 1 
+  cisco.ios.ios_config:
+     lines: 
+     - no {{ sq }}
+     before: ip access-list standard 99
+  when: deleted == 1
+
+- name: save running to startup when modified
+  cisco.ios.ios_command: 
+      commands: 
+      - command: write
+        prompt: '[confirm]'
+        answer: '' 
