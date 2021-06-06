@@ -3,3 +3,4 @@ ansible_connection=network_cli
 
 [cisco]
 R1
+R2

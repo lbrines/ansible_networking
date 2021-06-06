@@ -6,6 +6,7 @@
   vars:
    type: "none"
    rollback: 0
+   deleted: 0
   
   tasks:
   - name: Rollback acls
@@ -51,10 +52,9 @@
   - name: Delete ALL 99 acls
     cisco.ios.ios_acls:
        config:
-       - acls:
-         - aces:
-           - name: '99'
-           acl_type: standard
-         afi: ipv4
+       - afi: ipv4
+         acls:
+           - name: 99
+             acl_type: standard
        state: deleted
-    when: type == "deleted"  
+    when: deleted == 1 
