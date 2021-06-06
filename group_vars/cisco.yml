@@ -6,4 +6,7 @@ timezone: "clock timezone GMT -3"
 ntp_servers: 
  - "ntp server 172.24.12.121"
 password_ansible: ansible
+type: "none"
+rollback: 0
+deleted: 0
 
